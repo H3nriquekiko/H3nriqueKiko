@@ -1,4 +1,5 @@
 using Checklist.Web.Models;
+using ChecklistEntity = Checklist.Web.Models.Checklist;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,7 +11,7 @@ public class AppDbContext : IdentityDbContext
     {
     }
 
-    public DbSet<Checklist> Checklists => Set<Checklist>();
+    public DbSet<ChecklistEntity> Checklists => Set<ChecklistEntity>();
     public DbSet<ChecklistItem> ChecklistItems => Set<ChecklistItem>();
     public DbSet<ChecklistRun> ChecklistRuns => Set<ChecklistRun>();
     public DbSet<ChecklistRunItem> ChecklistRunItems => Set<ChecklistRunItem>();
@@ -19,7 +20,7 @@ public class AppDbContext : IdentityDbContext
     {
         base.OnModelCreating(builder);
 
-        builder.Entity<Checklist>(entity =>
+        builder.Entity<ChecklistEntity>(entity =>
         {
             entity.Property(c => c.IsActive).HasDefaultValue(true);
             entity.Property(c => c.Frequency).HasDefaultValue("Daily");

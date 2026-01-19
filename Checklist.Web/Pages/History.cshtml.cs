@@ -1,5 +1,6 @@
 using Checklist.Web.Data;
 using Checklist.Web.Models;
+using ChecklistEntity = Checklist.Web.Models.Checklist;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -17,7 +18,7 @@ public class HistoryModel : PageModel
 
     public List<ChecklistRun> Runs { get; set; } = new();
 
-    public List<Checklist> AvailableChecklists { get; set; } = new();
+    public List<ChecklistEntity> AvailableChecklists { get; set; } = new();
 
     [BindProperty(SupportsGet = true)]
     public int? ChecklistId { get; set; }

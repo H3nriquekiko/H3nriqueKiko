@@ -1,5 +1,6 @@
 using Checklist.Web.Data;
 using Checklist.Web.Models;
+using ChecklistEntity = Checklist.Web.Models.Checklist;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -15,7 +16,7 @@ public class IndexModel : PageModel
         _db = db;
     }
 
-    public List<Checklist> Checklists { get; set; } = new();
+    public List<ChecklistEntity> Checklists { get; set; } = new();
 
     public async Task OnGetAsync()
     {

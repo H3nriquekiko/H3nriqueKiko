@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Checklist.Web.Data;
 using Checklist.Web.Models;
+using ChecklistEntity = Checklist.Web.Models.Checklist;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -16,7 +17,7 @@ public class ItemsModel : PageModel
         _db = db;
     }
 
-    public Checklist? Checklist { get; set; }
+    public ChecklistEntity? Checklist { get; set; }
 
     public List<ChecklistItem> Items { get; set; } = new();
 

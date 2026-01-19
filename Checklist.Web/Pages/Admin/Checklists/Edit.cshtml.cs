@@ -1,5 +1,6 @@
 using Checklist.Web.Data;
 using Checklist.Web.Models;
+using ChecklistEntity = Checklist.Web.Models.Checklist;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -16,7 +17,7 @@ public class EditModel : PageModel
     }
 
     [BindProperty]
-    public Checklist Checklist { get; set; } = new();
+    public ChecklistEntity Checklist { get; set; } = new();
 
     public bool IsNew => Checklist.Id == 0;
 
@@ -24,7 +25,7 @@ public class EditModel : PageModel
     {
         if (id is null)
         {
-            Checklist = new Checklist();
+            Checklist = new ChecklistEntity();
             return Page();
         }
 
