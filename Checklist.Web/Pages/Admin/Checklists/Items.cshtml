@@ -1,0 +1,80 @@
+@page
+@model Checklist.Web.Pages.Admin.Checklists.ItemsModel
+@{
+    ViewData["Title"] = "Itens do Checklist";
+}
+
+<div class="card">
+    <h1>@Model.Checklist?.Name</h1>
+    <p>@Model.Checklist?.Description</p>
+
+    <h2>Novo item</h2>
+    <form method="post" asp-page-handler="Create">
+        @Html.AntiForgeryToken()
+        <div asp-validation-summary="ModelOnly" class="validation-summary-errors"></div>
+        <input type="hidden" name="ChecklistId" value="@Model.Checklist?.Id" />
+        <div class="form-group">
+            <label asp-for="NewItem.Title"></label>
+            <input asp-for="NewItem.Title" />
+            <span asp-validation-for="NewItem.Title" class="error-text"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="NewItem.Order"></label>
+            <input asp-for="NewItem.Order" type="number" />
+        </div>
+        <div class="form-group">
+            <label>
+                <input asp-for="NewItem.Required" /> Obrigatório
+            </label>
+        </div>
+        <button type="submit" class="button">Adicionar</button>
+    </form>
+</div>
+
+<div class="card">
+    <h2>Itens</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Ordem</th>
+                <th>Título</th>
+                <th>Obrigatório</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>
+                    <form method="post" asp-page-handler="Update" class="toolbar">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="ChecklistId" value="@Model.Checklist?.Id" />
+                        <input type="hidden" name="Id" value="@item.Id" />
+                        <input type="number" name="Order" value="@item.Order" style="width:80px" />
+                </td>
+                <td>
+                        <input type="text" name="Title" value="@item.Title" />
+                </td>
+                <td>
+                        <label>
+                            <input type="checkbox" name="Required" value="true" @(item.Required ? "checked" : "") />
+                            Obrigatório
+                        </label>
+                </td>
+                <td>
+                        <button type="submit" class="button secondary">Salvar</button>
+                    </form>
+                    <form method="post" asp-page-handler="Delete" class="inline">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="ChecklistId" value="@Model.Checklist?.Id" />
+                        <input type="hidden" name="Id" value="@item.Id" />
+                        <button type="submit" class="button">Excluir</button>
+                    </form>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    <a asp-page="Index" class="button secondary">Voltar</a>
+</div>

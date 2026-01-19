@@ -1,0 +1,28 @@
+@page
+@model Checklist.Web.Pages.Account.LoginModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="card">
+    <h1>Login</h1>
+    <p>Use as credenciais abaixo para o primeiro acesso:</p>
+    <p><strong>Email:</strong> admin@local<br />
+    <strong>Senha:</strong> Admin1234</p>
+
+    <form method="post">
+        @Html.AntiForgeryToken()
+        <div asp-validation-summary="ModelOnly" class="validation-summary-errors"></div>
+        <div class="form-group">
+            <label asp-for="Input.Email"></label>
+            <input asp-for="Input.Email" />
+            <span asp-validation-for="Input.Email" class="error-text"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Input.Password"></label>
+            <input asp-for="Input.Password" type="password" />
+            <span asp-validation-for="Input.Password" class="error-text"></span>
+        </div>
+        <button type="submit" class="button">Entrar</button>
+    </form>
+</div>

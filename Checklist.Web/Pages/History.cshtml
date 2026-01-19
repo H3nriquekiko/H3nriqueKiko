@@ -1,0 +1,67 @@
+@page
+@model Checklist.Web.Pages.HistoryModel
+@{
+    ViewData["Title"] = "Histórico";
+}
+
+<div class="card">
+    <h1>Histórico</h1>
+
+    <form method="get" class="toolbar">
+        <div class="form-group">
+            <label>Checklist</label>
+            <select name="ChecklistId">
+                <option value="">Todos</option>
+                @foreach (var checklist in Model.AvailableChecklists)
+                {
+                    <option value="@checklist.Id" selected="@(Model.ChecklistId == checklist.Id)">@checklist.Name</option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Data inicial</label>
+            <input type="date" name="StartDate" value="@Model.StartDate?.ToString("yyyy-MM-dd")" />
+        </div>
+        <div class="form-group">
+            <label>Data final</label>
+            <input type="date" name="EndDate" value="@Model.EndDate?.ToString("yyyy-MM-dd")" />
+        </div>
+        <div class="form-group">
+            <label>Status</label>
+            <select name="Status">
+                <option value="All" selected="@(Model.Status == "All")">Todos</option>
+                <option value="Open" selected="@(Model.Status == "Open")">Open</option>
+                <option value="Done" selected="@(Model.Status == "Done")">Done</option>
+            </select>
+        </div>
+        <button type="submit" class="button">Filtrar</button>
+    </form>
+</div>
+
+<div class="card">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Data</th>
+                <th>Checklist</th>
+                <th>Status</th>
+                <th>Iniciado</th>
+                <th>Finalizado</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var run in Model.Runs)
+        {
+            <tr>
+                <td>@run.DateRef.ToString("dd/MM/yyyy")</td>
+                <td>@run.Checklist?.Name</td>
+                <td>@run.Status</td>
+                <td>@run.StartedAt.ToLocalTime().ToString("dd/MM/yyyy HH:mm")</td>
+                <td>@(run.FinishedAt.HasValue ? run.FinishedAt.Value.ToLocalTime().ToString("dd/MM/yyyy HH:mm") : "-")</td>
+                <td><a asp-page="/Run" asp-route-runId="@run.Id" class="button secondary">Detalhes</a></td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

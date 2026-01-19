@@ -1,16 +1,37 @@
-## Hi there 👋
+# Checklist (MVP)
 
-<!--
-**H3nriquekiko/H3nriqueKiko** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+Sistema web de checklist (MVP) usando ASP.NET Core Razor Pages, EF Core, Identity e PostgreSQL.
 
-Here are some ideas to get you started:
+## Pré-requisitos
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+- .NET SDK 8.x
+- Docker + Docker Compose
+
+## Como rodar do zero
+
+1. Suba o banco PostgreSQL:
+   ```bash
+   docker compose up -d
+   ```
+2. Restaure dependências:
+   ```bash
+   dotnet restore Checklist.Web
+   ```
+3. Execute o projeto:
+   ```bash
+   dotnet run --project Checklist.Web
+   ```
+4. Acesse:
+   - Login: <http://localhost:5000/Account/Login>
+
+## Credenciais seed (Admin)
+
+- **Email:** admin@local
+- **Senha:** Admin1234
+
+## Fluxo básico
+
+1. Admin cria um checklist e seus itens em `/Admin/Checklists`.
+2. Em `/Today`, clique em **Executar** para iniciar a execução do checklist.
+3. Em `/Run/{id}`, marque os itens e finalize.
+4. Consulte em `/History`.

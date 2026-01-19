@@ -1,0 +1,42 @@
+@page "{id?}"
+@model Checklist.Web.Pages.Admin.Checklists.EditModel
+@{
+    ViewData["Title"] = Model.IsNew ? "Novo Checklist" : "Editar Checklist";
+}
+
+<div class="card">
+    <h1>@ViewData["Title"]</h1>
+    <form method="post">
+        @Html.AntiForgeryToken()
+        <div asp-validation-summary="ModelOnly" class="validation-summary-errors"></div>
+        <div class="form-group">
+            <label asp-for="Checklist.Name"></label>
+            <input asp-for="Checklist.Name" />
+            <span asp-validation-for="Checklist.Name" class="error-text"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Checklist.Description"></label>
+            <textarea asp-for="Checklist.Description"></textarea>
+            <span asp-validation-for="Checklist.Description" class="error-text"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Checklist.Frequency"></label>
+            <select asp-for="Checklist.Frequency">
+                <option value="Daily">Daily</option>
+                <option value="Weekly">Weekly</option>
+                <option value="Monthly">Monthly</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label asp-for="Checklist.DueTime"></label>
+            <input asp-for="Checklist.DueTime" type="time" />
+        </div>
+        <div class="form-group">
+            <label>
+                <input asp-for="Checklist.IsActive" /> Ativo
+            </label>
+        </div>
+        <button type="submit" class="button">Salvar</button>
+        <a asp-page="Index" class="button secondary">Voltar</a>
+    </form>
+</div>

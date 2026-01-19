@@ -1,0 +1,35 @@
+@page
+@model Checklist.Web.Pages.TodayModel
+@{
+    ViewData["Title"] = "Hoje";
+}
+
+<div class="card">
+    <h1>Checklists de Hoje</h1>
+    <p>Data de referência: @Model.TodayLocal.ToString("dd/MM/yyyy")</p>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Checklist</th>
+                <th>Frequência</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var checklist in Model.Checklists)
+        {
+            <tr>
+                <td>@checklist.Name</td>
+                <td>@checklist.Frequency</td>
+                <td>
+                    <form method="post" asp-page-handler="Run" asp-route-id="@checklist.Id">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="button">Executar</button>
+                    </form>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
