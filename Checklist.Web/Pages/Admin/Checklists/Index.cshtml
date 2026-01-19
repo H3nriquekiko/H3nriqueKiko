@@ -1,0 +1,41 @@
+@page
+@model Checklist.Web.Pages.Admin.Checklists.IndexModel
+@{
+    ViewData["Title"] = "Checklists";
+}
+
+<div class="card">
+    <div class="toolbar">
+        <h1>Checklists</h1>
+        <a asp-page="Edit" class="button">Novo checklist</a>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Frequência</th>
+                <th>Ativo</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var checklist in Model.Checklists)
+        {
+            <tr>
+                <td>@checklist.Name</td>
+                <td>@checklist.Frequency</td>
+                <td>@(checklist.IsActive ? "Sim" : "Não")</td>
+                <td>
+                    <a asp-page="Edit" asp-route-id="@checklist.Id" class="button secondary">Editar</a>
+                    <a asp-page="Items" asp-route-id="@checklist.Id" class="button secondary">Itens</a>
+                    <form method="post" asp-page-handler="Toggle" asp-route-id="@checklist.Id" class="inline">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="button">@(checklist.IsActive ? "Desativar" : "Ativar")</button>
+                    </form>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

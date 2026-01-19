@@ -1,0 +1,78 @@
+@page "{runId:int}"
+@model Checklist.Web.Pages.RunModel
+@{
+    ViewData["Title"] = "Execução";
+}
+
+@if (Model.Run is null)
+{
+    <div class="card">
+        <p>Execução não encontrada.</p>
+    </div>
+}
+else
+{
+    <div class="card">
+        <h1>@Model.Run.Checklist?.Name</h1>
+        <p>Data: @Model.Run.DateRef.ToString("dd/MM/yyyy")</p>
+        <p>Status: <span class="badge @(Model.Run.Status == "Done" ? "badge-done" : "badge-open")">@Model.Run.Status</span></p>
+
+        <div asp-validation-summary="ModelOnly" class="validation-summary-errors"></div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Ordem</th>
+                    <th>Item</th>
+                    <th>Status</th>
+                    <th>Notas</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var runItem in Model.Run.Items.OrderBy(i => i.Item!.Order))
+            {
+                <tr>
+                    <td>@runItem.Item?.Order</td>
+                    <td>@runItem.Item?.Title</td>
+                    <td>@runItem.Status</td>
+                    <td>@runItem.Notes</td>
+                    <td>
+                        @if (Model.Run.Status != "Done")
+                        {
+                            <form method="post" asp-page-handler="Update" class="toolbar">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="runId" value="@Model.Run.Id" />
+                                <input type="hidden" name="itemId" value="@runItem.Id" />
+                                <input type="hidden" name="status" value="Ok" />
+                                <button type="submit" class="button secondary">OK</button>
+                            </form>
+                            <form method="post" asp-page-handler="Update" class="toolbar">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="runId" value="@Model.Run.Id" />
+                                <input type="hidden" name="itemId" value="@runItem.Id" />
+                                <input type="hidden" name="status" value="Fail" />
+                                <textarea name="notes" placeholder="Notas (obrigatórias para falha)">@runItem.Notes</textarea>
+                                <button type="submit" class="button">Falha</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <span>Finalizado</span>
+                        }
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+
+        @if (Model.Run.Status != "Done")
+        {
+            <form method="post" asp-page-handler="Finish">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="runId" value="@Model.Run.Id" />
+                <button type="submit" class="button">Finalizar checklist</button>
+            </form>
+        }
+    </div>
+}

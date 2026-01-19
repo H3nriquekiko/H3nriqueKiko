@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Checklist</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <header class="topbar">
+        <div class="container">
+            <div class="brand">Checklist</div>
+            @if (User.Identity?.IsAuthenticated ?? false)
+            {
+                <nav class="nav">
+                    <a asp-page="/Index">Início</a>
+                    <a asp-page="/Today">Hoje</a>
+                    <a asp-page="/Admin/Checklists" class="admin-only">Admin</a>
+                    <a asp-page="/History">Histórico</a>
+                    <form method="post" asp-page="/Account/Logout">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="link-button">Sair</button>
+                    </form>
+                </nav>
+            }
+        </div>
+    </header>
+    <main class="container">
+        @RenderBody()
+    </main>
+</body>
+</html>
